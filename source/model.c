@@ -113,7 +113,7 @@ double transfer_pesimistic( int nx, int ny, int nz, int length, int timesteps )
   DEBUG_FPRINTF( stderr, "Ttotal \tTcoldRAM \tTstreamRAM \tTwriteRAM\n");
   DEBUG_FPRINTF( stderr, "%g \t%g \t%g \t%g\n", Ttotal, TcoldRAM, TstreamRAM, TwriteRAM);
 
-  DEBUG_FPRINTF( stderr, "PESIMISTIC (CASE 2): ######################################\n" );
+  DEBUG_FPRINTF( stderr, "PESIMISTIC (CASE 2): ######################################\n\n" );
 
   return Ttotal;
 }
@@ -515,17 +515,17 @@ double transfer_ideal( int nx, int ny, int nz,
   double Twrite, TwriteP, TwriteNP;
 
   /* Prefetching Efficiency coefficients. Range between [0,1].
-   *  - 0 means no working at all.
+   *  - 0 means no prefetching at all.
    *  - 1 means prefetching everything. */
   double pEL1, pEL2, pEL3 = 0.0;
   double prefBlocking;
   double prefEL1[] = prefEffL1;
   double prefEL2[] = prefEffL2;
 
-  DEBUG_FPRINTF( stderr, "IDEAL (CASE 3): ######################################\n" );
+  DEBUG_FPRINTF( stderr, "IDEAL (CASE 3): ###########################################\n" );
 
-/* Compute blocking parameters */
 #if 1
+/* Compute blocking parameters */
   NBI = nx/(double)tx;
   NBJ = ny/(double)ty;
   NBK = nz/(double)tz;
@@ -570,7 +570,7 @@ double transfer_ideal( int nx, int ny, int nz,
 
   JJ = J+2*length;
 
-
+  DEBUG_FPRINTF( stderr, "Blocking is ON\n" );
   DEBUG_FPRINTF( stderr, "II: %d, JJ: %d, NBI: %f, NBJ: %f, NBK: %f, NB: %f\n",
                  II, JJ, NBI, NBJ, NBK, NB);
 
