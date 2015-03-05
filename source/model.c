@@ -118,8 +118,6 @@ double transfer_pesimistic( int nx, int ny, int nz, int length, int timesteps )
   return Ttotal;
 }
 
-
-
 /*
  * Interpolates a value (y) given a range of data (lowerBound, upperBound) for
  * x and y axes:
@@ -189,12 +187,9 @@ double interpolate( int method, double x, double x0, double x1, double y0, doubl
   DEBUG_FPRINTF(stderr, "\ty: %g, for x: %g, x0: %g, x1: %g, y0: %g, y1: %g\n",
                 y, x, x0, x1, y0, y1);
 
-
   /* Return interpolated data */
   return y;
 }
-
-
 
 /* Returns the number of misses by means of number of planes to read
  * for each plane processed of the stencil computation */
@@ -459,7 +454,6 @@ endRules:
   /* Return number of planes misses for such configuration */
   return nplanesLx;
 }
-
 
 /*
  * TODO: explain parameters
@@ -990,11 +984,10 @@ int main( int argc, char **argv )
   /* ideal stands for: ? */
   ti = transfer_ideal( nx, ny, nz, tx, ty, tz, length, timesteps );
 
-  DEBUG_FPRINTF( stderr, "nx*ny*nz \ttx*ty*tz \ttimesteps \tlength"
+  __FPRINTF( stderr, "nx*ny*nz \ttx*ty*tz \ttimesteps \tlength"
                  " \toptimistic \tpesimistic \tideal \n" );
-  DEBUG_FPRINTF( stderr, "%d %d %d \t%d %d %d \t%d \t\t%d \t%g \t%g \t%g\n",
+  __FPRINTF( stderr, "%d %d %d \t%d %d %d \t%d \t\t%d \t%g \t%g \t%g\n",
                  nx, ny, nz, tx, ty, tz, timesteps, length, to, tp, ti );
-
 
   return EXIT_SUCCESS;
 }

@@ -11,7 +11,7 @@
 
 /* Architectureal definitions */
 
-#elif NEHALEM
+#if NEHALEM
 # define bwL1r      (49.4*1024*1024*1024) /* (32.6*1024*1024*1024) */
 # define bwL2r      (29.4*1024*1024*1024)
 # define bwL3r      (21.1*1024*1024*1024)
