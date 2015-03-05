@@ -11,58 +11,6 @@
 
 /* Architectureal definitions */
 
-#ifdef T60
-# define bwL1r      (13.1*1024*1024*1024)
-# define bwL2r      (7.4*1024*1024*1024)
-# define bwRAMr     (3.2*1024*1024*1024)
-
-# define bwL1w      (12.3*1024*1024*1024)
-# define bwL2w      (7.4*1024*1024*1024)
-# define bwRAMw     (1.3*1024*1024*1024)
-
-# define cacheline  64.0
-# define assocL1    8.0
-# define assocL2    8.0
-# define sizeL1     (32.0*1024)
-# define sizeL2     (2.0*1024*1024)  /* shared 2 cores */
-# define prefL1     0.0
-# define prefL2     0.0
-# define regFPR     4.0 /* http://en.wikipedia.org/wiki/X86 */
-# define regGPR     4.0
-# define prefRangeL1 128.0
-# define prefRangeL2 128.0
-# define WRITEBACK  1
-
-#elif T400
-# define bwL1r      (19.7*1024*1024*1024)
-# define bwL2r      (15.1*1024*1024*1024)
-# define bwRAMr     (5.9*1024*1024*1024)
-
-# define bwL1w      (20.6*1024*1024*1024)
-# define bwL2w      (12.6*1024*1024*1024)
-# define bwRAMw     (2.7*1024*1024*1024)
-
-# define bwL1rNP    (19.9*1024*1024*1024)
-# define bwL2rNP    (8.9*1024*1024*1024)
-# define bwRAMrNP   (1.6*1024*1024*1024)
-
-# define bwL1wNP    (19.8*1024*1024*1024)
-# define bwL2wNP    (8.0*1024*1024*1024)
-# define bwRAMwNP   (0.96*1024*1024*1024)
-
-# define cacheline  64.0
-# define assocL1    8.0
-# define assocL2    24.0
-# define sizeL1     (32.0*1024)
-# define sizeL2     (3.5*1024*1024) /* (6.0*1024*1024)  // shared 2 cores */
-# define prefL1     2.0
-# define prefL2     2.0
-# define prefRangeL1 128.0
-# define prefRangeL2 128.0
-# define regFPR     4.0 /* http://en.wikipedia.org/wiki/X86 */
-# define regGPR     4.0
-# define WRITEBACK  1
-
 #elif NEHALEM
 # define bwL1r      (49.4*1024*1024*1024) /* (32.6*1024*1024*1024) */
 # define bwL2r      (29.4*1024*1024*1024)
