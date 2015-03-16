@@ -347,8 +347,8 @@
 # define VECSIZE    8 // Vector code enabled
 # define UNALIGNED  1 // Unaligned read/write?
 
-# define TP 3         // Triggering Prefetching (in # of clines)
-# define LAP 5        // Look-ahead Prefetching (in # of clines)
+# define TP         3 // Triggering Prefetching (in # of clines)
+# define LAP        5 // Look-ahead Prefetching (in # of clines)
 
 #elif OPTERON
 

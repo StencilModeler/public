@@ -1,0 +1,292 @@
+=========
+== EXP ==
+=========
+OPTIMISTIC (CASE 1): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.000549594 	3.03473e-05 	0.000272015 	0.000247231
+OPTIMISTIC (CASE 1): ######################################
+
+PESIMISTIC (CASE 2): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.00358543 	0.0033382 	0 	0.000247231
+PESIMISTIC (CASE 2): ######################################
+
+IDEAL (CASE 3): ###########################################
+ Blocking is ON
+  prefBlocking is OFF
+  II 	JJ 	NBI 	NBJ 	NBK 	NB
+  18 	18 	4.000 	4.000 	4.000 	64.000
+*** CPU - L1 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L1 assocSize: 512
+	L1: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L1: (16,16,16), 2 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 2)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 2)
+	y: 0, for x: 1, x0: 1, x1: 2, y0: 0, y1: 0
+	L1: regLoopR: 7, regLoopW: 1, Reads L1 Total: 1.83501e+06 - Write L1 Total: 262144, Kread: 18
+	L1-MissP: 0 (clines), L1-MissNP: 46656 (clines), L1-HitP: 0 (words), L1-HitNP: 1461760 (words)
+	L1: nplanesL1: 1, nplanesL1NP: 1, nplanesL1P: 0
+	L1: TtotalL1: 0.000465426, TstreamL1: 0, TnstreamL1: 0.000465426, TwordL1r: 1.50821e-10
+*** L1 - L2 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L2 assocSize: 4096
+	L2: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L2: (16,16,16), 2 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 2)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 2)
+	y: 0.983, for x: 2, x0: 2, x1: 3, y0: 0.983, y1: 0.983
+	L2-MissP: 1446, L2-MissNP: 45210, L2-HitP: 0 L2-HitNP: 0
+	L2: nplanesL2: 1, nplanesL2NP: 0.969, nplanesL2P: 0.031, prefEL2: 0.031
+	L2: TtotalL2: 0, TstreamL2: 0, TnstreamL2: 0, TclineL2r: 2.02737e-09
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L3 assocSize: 65536
+	L3: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L3: (16,16,16), 2 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 2)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***********************************HITL3: 0.000000 1446.336000 0.000000
+L3-MissP: 0, L3-MissNP: 46656, L3-HitP: 0 L3-HitNP: 0
+L3: nplanesL3: 1, nplanesL3NP: 1, nplanesL3P: 0
+	WRITEBACK - Twrite: 0, volumeWriteCL: 32768, TwriteP: 0, TwriteNP: 0
+RAM-HitP: 0 RAM-HitNP: 46656
+IDEAL (CASE 3): ######################################
+nx*ny*nz 	tx*ty*tz 	timesteps 	length 	optimistic 	pesimistic 	ideal 
+64 64 64 	16 16 16 	20 		1 	0.000549594 	0.00358543 	0.00125997
+
+=========
+== LIN ==
+=========
+OPTIMISTIC (CASE 1): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.000549594 	3.03473e-05 	0.000272015 	0.000247231
+OPTIMISTIC (CASE 1): ######################################
+
+PESIMISTIC (CASE 2): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.00358543 	0.0033382 	0 	0.000247231
+PESIMISTIC (CASE 2): ######################################
+
+IDEAL (CASE 3): ###########################################
+ Blocking is ON
+  prefBlocking is OFF
+  II 	JJ 	NBI 	NBJ 	NBK 	NB
+  18 	18 	4.000 	4.000 	4.000 	64.000
+*** CPU - L1 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L1 assocSize: 512
+	L1: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L1: (16,16,16), 1 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 1)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 1)
+	y: 0, for x: 1, x0: 1, x1: 2, y0: 0, y1: 0
+	L1: regLoopR: 7, regLoopW: 1, Reads L1 Total: 1.83501e+06 - Write L1 Total: 262144, Kread: 18
+	L1-MissP: 0 (clines), L1-MissNP: 46656 (clines), L1-HitP: 0 (words), L1-HitNP: 1461760 (words)
+	L1: nplanesL1: 1, nplanesL1NP: 1, nplanesL1P: 0
+	L1: TtotalL1: 0.000465426, TstreamL1: 0, TnstreamL1: 0.000465426, TwordL1r: 1.50821e-10
+*** L1 - L2 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L2 assocSize: 4096
+	L2: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L2: (16,16,16), 1 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 1)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 1)
+	y: 0.983, for x: 2, x0: 2, x1: 3, y0: 0.983, y1: 0.983
+	L2-MissP: 1446, L2-MissNP: 45210, L2-HitP: 0 L2-HitNP: 0
+	L2: nplanesL2: 1, nplanesL2NP: 0.969, nplanesL2P: 0.031, prefEL2: 0.031
+	L2: TtotalL2: 0, TstreamL2: 0, TnstreamL2: 0, TclineL2r: 2.02737e-09
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L3 assocSize: 65536
+	L3: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L3: (16,16,16), 1 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 1)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***********************************HITL3: 0.000000 1446.336000 0.000000
+L3-MissP: 0, L3-MissNP: 46656, L3-HitP: 0 L3-HitNP: 0
+L3: nplanesL3: 1, nplanesL3NP: 1, nplanesL3P: 0
+	WRITEBACK - Twrite: 0, volumeWriteCL: 32768, TwriteP: 0, TwriteNP: 0
+RAM-HitP: 0 RAM-HitNP: 46656
+IDEAL (CASE 3): ######################################
+nx*ny*nz 	tx*ty*tz 	timesteps 	length 	optimistic 	pesimistic 	ideal 
+64 64 64 	16 16 16 	20 		1 	0.000549594 	0.00358543 	0.00125997
+
+=========
+== LOG ==
+=========
+OPTIMISTIC (CASE 1): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.000549594 	3.03473e-05 	0.000272015 	0.000247231
+OPTIMISTIC (CASE 1): ######################################
+
+PESIMISTIC (CASE 2): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.00358543 	0.0033382 	0 	0.000247231
+PESIMISTIC (CASE 2): ######################################
+
+IDEAL (CASE 3): ###########################################
+ Blocking is ON
+  prefBlocking is OFF
+  II 	JJ 	NBI 	NBJ 	NBK 	NB
+  18 	18 	4.000 	4.000 	4.000 	64.000
+*** CPU - L1 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L1 assocSize: 512
+	L1: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L1: (16,16,16), 3 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 3)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 3)
+	y: 0, for x: 1, x0: 1, x1: 2, y0: 0, y1: 0
+	L1: regLoopR: 7, regLoopW: 1, Reads L1 Total: 1.83501e+06 - Write L1 Total: 262144, Kread: 18
+	L1-MissP: 0 (clines), L1-MissNP: 46656 (clines), L1-HitP: 0 (words), L1-HitNP: 1461760 (words)
+	L1: nplanesL1: 1, nplanesL1NP: 1, nplanesL1P: 0
+	L1: TtotalL1: 0.000465426, TstreamL1: 0, TnstreamL1: 0.000465426, TwordL1r: 1.50821e-10
+*** L1 - L2 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L2 assocSize: 4096
+	L2: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L2: (16,16,16), 3 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 3)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 3)
+	y: 0.983, for x: 2, x0: 2, x1: 3, y0: 0.983, y1: 0.983
+	L2-MissP: 1446, L2-MissNP: 45210, L2-HitP: 0 L2-HitNP: 0
+	L2: nplanesL2: 1, nplanesL2NP: 0.969, nplanesL2P: 0.031, prefEL2: 0.031
+	L2: TtotalL2: 0, TstreamL2: 0, TnstreamL2: 0, TclineL2r: 2.02737e-09
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L3 assocSize: 65536
+	L3: Total reuse (C1), nplanes: 1.000000
+lowerRule = 0, upperRule = 1
+L3: (16,16,16), 3 interpolation, nplanesLx: 1.000000
+***** Interpolation: (method: 3)
+	y: 1, for x: 1, x0: 1, x1: 2, y0: 1, y1: 1
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***********************************HITL3: 0.000000 1446.336000 0.000000
+L3-MissP: 0, L3-MissNP: 46656, L3-HitP: 0 L3-HitNP: 0
+L3: nplanesL3: 1, nplanesL3NP: 1, nplanesL3P: 0
+	WRITEBACK - Twrite: 0, volumeWriteCL: 32768, TwriteP: 0, TwriteNP: 0
+RAM-HitP: 0 RAM-HitNP: 46656
+IDEAL (CASE 3): ######################################
+nx*ny*nz 	tx*ty*tz 	timesteps 	length 	optimistic 	pesimistic 	ideal 
+64 64 64 	16 16 16 	20 		1 	0.000549594 	0.00358543 	0.00125997
+
+========
+== NO ==
+========
+OPTIMISTIC (CASE 1): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.000549594 	3.03473e-05 	0.000272015 	0.000247231
+OPTIMISTIC (CASE 1): ######################################
+
+PESIMISTIC (CASE 2): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.00358543 	0.0033382 	0 	0.000247231
+PESIMISTIC (CASE 2): ######################################
+
+IDEAL (CASE 3): ###########################################
+ Blocking is ON
+  prefBlocking is OFF
+  II 	JJ 	NBI 	NBJ 	NBK 	NB
+  18 	18 	4.000 	4.000 	4.000 	64.000
+*** CPU - L1 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L1 assocSize: 512
+	L1: Total reuse (C1), nplanes: 1.000000
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 0)
+	y: 0, for x: 1, x0: 1, x1: 2, y0: 0, y1: 0
+	L1: regLoopR: 7, regLoopW: 1, Reads L1 Total: 1.83501e+06 - Write L1 Total: 262144, Kread: 18
+	L1-MissP: 0 (clines), L1-MissNP: 46656 (clines), L1-HitP: 0 (words), L1-HitNP: 1461760 (words)
+	L1: nplanesL1: 1, nplanesL1NP: 1, nplanesL1P: 0
+	L1: TtotalL1: 0.000465426, TstreamL1: 0, TnstreamL1: 0.000465426, TwordL1r: 1.50821e-10
+*** L1 - L2 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L2 assocSize: 4096
+	L2: Total reuse (C1), nplanes: 1.000000
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***** Interpolation: (method: 0)
+	y: 0.983, for x: 2, x0: 2, x1: 3, y0: 0.983, y1: 0.983
+	L2-MissP: 1446, L2-MissNP: 45210, L2-HitP: 0 L2-HitNP: 0
+	L2: nplanesL2: 1, nplanesL2NP: 0.969, nplanesL2P: 0.031, prefEL2: 0.031
+	L2: TtotalL2: 0, TstreamL2: 0, TnstreamL2: 0, TclineL2r: 2.02737e-09
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L3 assocSize: 65536
+	L3: Total reuse (C1), nplanes: 1.000000
+scaleII = 1.000000, scaleJJ = 0.888889, nplanesLx = 1.000000
+***********************************HITL3: 0.000000 1446.336000 0.000000
+L3-MissP: 0, L3-MissNP: 46656, L3-HitP: 0 L3-HitNP: 0
+L3: nplanesL3: 1, nplanesL3NP: 1, nplanesL3P: 0
+	WRITEBACK - Twrite: 0, volumeWriteCL: 32768, TwriteP: 0, TwriteNP: 0
+RAM-HitP: 0 RAM-HitNP: 46656
+IDEAL (CASE 3): ######################################
+nx*ny*nz 	tx*ty*tz 	timesteps 	length 	optimistic 	pesimistic 	ideal 
+64 64 64 	16 16 16 	20 		1 	0.000549594 	0.00358543 	0.00125997
+
+==========
+== NONO ==
+==========
+OPTIMISTIC (CASE 1): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.000549594 	3.03473e-05 	0.000272015 	0.000247231
+OPTIMISTIC (CASE 1): ######################################
+
+PESIMISTIC (CASE 2): ######################################
+Ttotal 	TcoldRAM 	TstreamRAM 	TwriteRAM
+0.00358543 	0.0033382 	0 	0.000247231
+PESIMISTIC (CASE 2): ######################################
+
+IDEAL (CASE 3): ###########################################
+ Blocking is ON
+  prefBlocking is OFF
+  II 	JJ 	NBI 	NBJ 	NBK 	NB
+  18 	18 	4.000 	4.000 	4.000 	64.000
+*** CPU - L1 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L1 assocSize: 512
+	L1: Total reuse (C1), nplanes: 1.000000
+***** Interpolation: (method: 0)
+	y: 0, for x: 1, x0: 1, x1: 2, y0: 0, y1: 0
+	L1: regLoopR: 7, regLoopW: 1, Reads L1 Total: 1.83501e+06 - Write L1 Total: 262144, Kread: 18
+	L1-MissP: 0 (clines), L1-MissNP: 46656 (clines), L1-HitP: 0 (words), L1-HitNP: 1461760 (words)
+	L1: nplanesL1: 1, nplanesL1NP: 1, nplanesL1P: 0
+	L1: TtotalL1: 0.000465426, TstreamL1: 0, TnstreamL1: 0.000465426, TwordL1r: 1.50821e-10
+*** L1 - L2 ***
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L2 assocSize: 4096
+	L2: Total reuse (C1), nplanes: 1.000000
+***** Interpolation: (method: 0)
+	y: 0.983, for x: 2, x0: 2, x1: 3, y0: 0.983, y1: 0.983
+	L2-MissP: 1446, L2-MissNP: 45210, L2-HitP: 0 L2-HitNP: 0
+	L2: nplanesL2: 1, nplanesL2NP: 0.969, nplanesL2P: 0.031, prefEL2: 0.031
+	L2: TtotalL2: 0, TstreamL2: 0, TnstreamL2: 0, TclineL2r: 2.02737e-09
+Total memory (elems) per stencil plane: 1228 (4 planes)
+	L3 assocSize: 65536
+	L3: Total reuse (C1), nplanes: 1.000000
+***********************************HITL3: 0.000000 1446.336000 0.000000
+L3-MissP: 0, L3-MissNP: 46656, L3-HitP: 0 L3-HitNP: 0
+L3: nplanesL3: 1, nplanesL3NP: 1, nplanesL3P: 0
+	WRITEBACK - Twrite: 0, volumeWriteCL: 32768, TwriteP: 0, TwriteNP: 0
+RAM-HitP: 0 RAM-HitNP: 46656
+IDEAL (CASE 3): ######################################
+nx*ny*nz 	tx*ty*tz 	timesteps 	length 	optimistic 	pesimistic 	ideal 
+64 64 64 	16 16 16 	20 		1 	0.000549594 	0.00358543 	0.00125997

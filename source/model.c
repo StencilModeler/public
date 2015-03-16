@@ -36,7 +36,7 @@ double transfer_optimistic( int nx, int ny, int nz, int length, int timesteps )
   double TtotalRAM;
   double Ttotal;
 
-  DEBUG_FPRINTF( stderr, "OPTIMISTIC (CASE 1): ######################################\n" );
+  DEBUG_FPRINTF( stdout, "OPTIMISTIC (CASE 1): #################################\n" );
 
   I = nx;
   J = ny;
@@ -58,10 +58,11 @@ double transfer_optimistic( int nx, int ny, int nz, int length, int timesteps )
   TtotalRAM  = TcoldRAM + TstreamRAM + TwriteRAM;
 
   Ttotal = TtotalRAM;
-  DEBUG_FPRINTF( stderr, "Ttotal \tTcoldRAM \tTstreamRAM \tTwriteRAM\n");
-  DEBUG_FPRINTF( stderr, "%g \t%g \t%g \t%g\n", Ttotal, TcoldRAM, TstreamRAM, TwriteRAM);
+  DEBUG_FPRINTF( stdout, "Ttotal \t\tTcoldRAM \tTstreamRAM \tTwriteRAM\n");
+  DEBUG_FPRINTF( stdout, "%2.8f \t%2.8f \t%2.8f \t%2.8f\n", 
+                 Ttotal, TcoldRAM, TstreamRAM, TwriteRAM);
 
-  DEBUG_FPRINTF( stderr, "OPTIMISTIC (CASE 1): ######################################\n\n" );
+  DEBUG_FPRINTF( stdout, "OPTIMISTIC (CASE 1): #################################\n" );
 
 
   return Ttotal;
@@ -88,7 +89,7 @@ double transfer_pesimistic( int nx, int ny, int nz, int length, int timesteps )
   double TtotalRAM;
   double Ttotal;
 
-  DEBUG_FPRINTF( stderr, "PESIMISTIC (CASE 2): ######################################\n" );
+  DEBUG_FPRINTF( stdout, "\nPESIMISTIC (CASE 2): #################################\n" );
 
   I = nx;
   J = ny;
@@ -110,10 +111,11 @@ double transfer_pesimistic( int nx, int ny, int nz, int length, int timesteps )
   TtotalRAM  = TcoldRAM + TstreamRAM + TwriteRAM;
 
   Ttotal = TtotalRAM;
-  DEBUG_FPRINTF( stderr, "Ttotal \tTcoldRAM \tTstreamRAM \tTwriteRAM\n");
-  DEBUG_FPRINTF( stderr, "%g \t%g \t%g \t%g\n", Ttotal, TcoldRAM, TstreamRAM, TwriteRAM);
+  DEBUG_FPRINTF( stdout, "Ttotal \t\tTcoldRAM \tTstreamRAM \tTwriteRAM\n");
+  DEBUG_FPRINTF( stdout, "%2.8f \t%2.8f \t%2.8f \t%2.8f\n", 
+                 Ttotal, TcoldRAM, TstreamRAM, TwriteRAM);
 
-  DEBUG_FPRINTF( stderr, "PESIMISTIC (CASE 2): ######################################\n\n" );
+  DEBUG_FPRINTF( stdout, "PESIMISTIC (CASE 2): #################################\n\n" );
 
   return Ttotal;
 }
@@ -179,12 +181,12 @@ double interpolate( int method, double x, double x0, double x1, double y0, doubl
       break;
 
     default:
-      fprintf( stderr, "Error: interpolation method not supported!\n" );
+      fprintf( stdout, "Error: interpolation method not supported!\n" );
       exit(EXIT_FAILURE);
   }
 
-  DEBUG_FPRINTF(stderr, "***** Interpolation: (method: %d)\n", method);
-  DEBUG_FPRINTF(stderr, "\ty: %g, for x: %g, x0: %g, x1: %g, y0: %g, y1: %g\n",
+  DEBUG_FPRINTF(stdout, "***** Interpolation: (method: %d)\n", method);
+  DEBUG_FPRINTF(stdout, "\ty: %g, for x: %g, x0: %g, x1: %g, y0: %g, y1: %g\n",
                 y, x, x0, x1, y0, y1);
 
   /* Return interpolated data */
@@ -225,7 +227,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   nplanes     = ReadPlanes;
   nplanesSize = ReadPlanes * planeSizeR;
 #endif
-  DEBUG_FPRINTF( stderr,"Total memory (elems) per stencil plane: %g (%.0f planes)\n",
+  DEBUG_FPRINTF( stdout,"Total memory (elems) per stencil plane: %g (%.0f planes)\n",
                  nplanesSize, nplanes );
 
 
@@ -233,7 +235,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   /* How much space/assoc requires the central plane */
   /* assoc = MIN(planeSizeR/((sizeL1/word)/assocL1), assocL1); */   // Number of associativities required
   assocSize  = (sizeLx/word)/assocLx;                 // Size per associativity
-  DEBUG_FPRINTF( stderr,"\t%s assocSize: %g\n", textLx, assocSize );
+  DEBUG_FPRINTF( stdout,"\t%s assocSize: %g\n", textLx, assocSize );
 
 
 /* Rules definition */
@@ -260,7 +262,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   if (R1) {
     /* At least only nplanesLx = 1 of misses, but coef, indexes could push up this value a little more for L1 */
     nplanesLx = 1.0;
-    DEBUG_FPRINTF( stderr,"\t%s: Total reuse (C1), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"\t%s: Total reuse (C1), nplanes: %f\n", textLx, nplanesLx);
     *Kread = KK;
 
     lowerRule = 0;
@@ -272,7 +274,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   if (R2) {
     /* Initial number of planes to read if total data does not fit in cache */
     nplanesLx = ReadPlanes - 1.0;
-    DEBUG_FPRINTF( stderr,"\t%s: No total reuse on K, reuse on central plane (C1 U C2), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"\t%s: No total reuse on K, reuse on central plane (C1 U C2), nplanes: %f\n", textLx, nplanesLx);
 
     lowerRule = 1;
     upperRule = 2;
@@ -282,7 +284,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
 #if SEMI
   /* Semi-stencil: writePlanes is increased to 3 if central plane does not fit in cache */
   *writePlanes+=1.0;
-  DEBUG_FPRINTF( stderr,"\t%s: writePlanes: %f\n", textLx, *writePlanes);
+  DEBUG_FPRINTF( stdout,"\t%s: writePlanes: %f\n", textLx, *writePlanes);
 #endif
 
   /* If central plane fits in half of the cache (COLUMN_RATIO: columns central/columns in total) */
@@ -290,7 +292,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   if (R3) {
     /* Miss back and front planes only */
     nplanesLx = ReadPlanes - 1.0;
-    DEBUG_FPRINTF( stderr,"\t%s: No reuse on K, reuse on central plane (C2 U C3), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"\t%s: No reuse on K, reuse on central plane (C2 U C3), nplanes: %f\n", textLx, nplanesLx);
 
     lowerRule = 2;
     upperRule = 3;
@@ -301,7 +303,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   /* the number of planes should be ReadPlanes                                                           */
   if (R4) {
     nplanesLx = ReadPlanes;
-    DEBUG_FPRINTF( stderr,"\t%s: No reuse on K (neither central plane) (C3 U C4), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"\t%s: No reuse on K (neither central plane) (C3 U C4), nplanes: %f\n", textLx, nplanesLx);
 
     lowerRule = 3;
     upperRule = 4;
@@ -313,7 +315,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   /* They should be reused in J iteration                      */
   /* Miss all planes (included central plane: no reuse columns on central plane) */
   nplanesLx = (2.0 * ReadPlanes) - 1.0;
-  DEBUG_FPRINTF( stderr,"\t%s: No reuse, miss all (planes, central plane and columns) (C4), nplanes: %f\n", textLx, nplanesLx);
+  DEBUG_FPRINTF( stdout,"\t%s: No reuse, miss all (planes, central plane and columns) (C4), nplanes: %f\n", textLx, nplanesLx);
 
   lowerRule = 4;
   upperRule = 5;
@@ -414,9 +416,9 @@ endRules:
     }
 
 
-    DEBUG_FPRINTF(stderr, "lowerRule = %d, upperRule = %d\n", lowerRule, upperRule);
+    DEBUG_FPRINTF(stdout, "lowerRule = %d, upperRule = %d\n", lowerRule, upperRule);
 
-    DEBUG_FPRINTF(stderr, "%s: (%d,%d,%d), %d interpolation, nplanesLx: %f\n", textLx,
+    DEBUG_FPRINTF(stdout, "%s: (%d,%d,%d), %d interpolation, nplanesLx: %f\n", textLx,
                   I, J, K,  interp, nplanesLx);
 
     /* Interpolate between rules */
@@ -447,7 +449,7 @@ endRules:
   //else nplanesLx += (scaleII*scaleJJ);
   //if ((lowerRule > 1) && (upperRule > 1)) nplanesLx *= (scaleJJ);
   //else nplanesLx += (scaleII * scaleJJ);
-  DEBUG_FPRINTF(stderr, "scaleII = %f, scaleJJ = %f, nplanesLx = %f\n", scaleII, scaleJJ, nplanesLx);
+  DEBUG_FPRINTF(stdout, "scaleII = %f, scaleJJ = %f, nplanesLx = %f\n", scaleII, scaleJJ, nplanesLx);
 #endif
 
 
@@ -522,43 +524,38 @@ double transfer_ideal( int nx, int ny, int nz,
   double prefEL1[] = prefEffL1;
   double prefEL2[] = prefEffL2;
 
-  DEBUG_FPRINTF( stderr, "IDEAL (CASE 3): ###########################################\n" );
+  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ###########################################\n" );
 
+  prefBlocking = 0.0;  // Prefetching is not triggered
 #if 1
 /* Compute blocking parameters */
-  NBI = nx/(double)tx;
-  NBJ = ny/(double)ty;
-  NBK = nz/(double)tz;
-  NB  = (NBI * NBJ * NBK);
   I = tx;
   J = ty;
   K = tz;
-
+  NBI = nx/(double)I;
+  NBJ = ny/(double)J;
+  NBK = nz/(double)K;
+  NB  = (NBI * NBJ * NBK);
 
   // If NBI > 1 or VECTOR processor -> words are also fetched multiple of cline
-  if ((NBI > 1) && VECTOR) {
+  if ((NBI > 1) && VECTOR) 
+    {
     I  = ceil((I+UNALIGNED)/elemCLine)*elemCLine;
     II = ceil((I+2*length)/elemCLine)*elemCLine;
   }
   else
     II = I+2*length;
 
-
-#if 0
-#define TP 2
-#define LAP 20
   /* Blocking effect in Prefetched planes */
-  if (NB > 1) {
+  if (NB > 1) 
+    {
     if (I > TP*elemCLine) { // Trigger Prefetching activation
       I  += LAP*elemCLine; // Look-ahead Prefetching size
       II += LAP*elemCLine; // Look-ahead Prefetching size
       prefBlocking = ((TP+LAP)*elemCLine)/II;
     }
-    else prefBlocking = 0.0;  // Prefetching is not triggered
   }
   else prefBlocking = 1.0;
-  DEBUG_FPRINTF( stderr, "prefBlocking: %f\n", prefBlocking);
-#endif
 
 
 #if 0
@@ -570,8 +567,11 @@ double transfer_ideal( int nx, int ny, int nz,
 
   JJ = J+2*length;
 
-  DEBUG_FPRINTF( stderr, "Blocking is ON\n" );
-  DEBUG_FPRINTF( stderr, "II: %d, JJ: %d, NBI: %f, NBJ: %f, NBK: %f, NB: %f\n",
+  DEBUG_FPRINTF( stdout, " Blocking is ON\n" );
+  if( prefBlocking ) DEBUG_FPRINTF( stdout, "  prefBlocking is ON\n" );
+  else DEBUG_FPRINTF( stdout, "  prefBlocking is OFF\n" );
+  DEBUG_FPRINTF( stdout, "  II \tJJ \tNBI \tNBJ \tNBK \tNB\n" );
+  DEBUG_FPRINTF( stdout, "  %d \t%d \t%2.3f \t%2.3f \t%2.3f \t%2.3f\n",
                  II, JJ, NBI, NBJ, NBK, NB);
 
 #else
@@ -585,6 +585,11 @@ double transfer_ideal( int nx, int ny, int nz,
   K = nz;
   II = I+2*length;
   JJ = J+2*length;
+
+  DEBUG_FPRINTF( stdout, " Blocking is OFF\n" );
+  DEBUG_FPRINTF( stdout, "  II \tJJ \tNBI \tNBJ \tNBK \tNB\n" );
+  DEBUG_FPRINTF( stdout, "  %d \t% \t%f \t%f \t%f \t%f\n",
+                 II, JJ, NBI, NBJ, NBK, NB);
 #endif
 
   /* Non-streamed for blocking */
@@ -602,7 +607,7 @@ double transfer_ideal( int nx, int ny, int nz,
   /******************************************/
   /* CPU - L1: Cost transfer from L1 to CPU */
   /******************************************/
-  DEBUG_FPRINTF( stderr, "*** CPU - L1 ***\n" );
+  DEBUG_FPRINTF( stdout, "\n *** CPU - L1 level ***\n" );
   TwordL1r  = word / bwL1r;
   TwordL1w  = word / bwL1w;
   TwordL1rNP = word / bwL1rNP;
@@ -673,18 +678,18 @@ double transfer_ideal( int nx, int ny, int nz,
   TnstreamL1 = HitL1NP * TwordL1rNP;
   TtotalL1   = TstreamL1 + TnstreamL1;
 
-  DEBUG_FPRINTF( stderr, "\tL1: regLoopR: %g, regLoopW: %g, Reads L1 Total: %g - Write L1 Total: %g, Kread: %d\n",
+  DEBUG_FPRINTF( stdout, "\tL1: regLoopR: %g, regLoopW: %g, Reads L1 Total: %g - Write L1 Total: %g, Kread: %d\n",
          regLoopR, regLoopW, regLoopR * I * J * K * NB, regLoopW * I * J * K * NB, Kread);
-  DEBUG_FPRINTF( stderr, "\tL1-MissP: %.0lf (clines), L1-MissNP: %.0lf (clines), L1-HitP: %.0lf (words), L1-HitNP: %.0lf (words)\n",
+  DEBUG_FPRINTF( stdout, "\tL1-MissP: %.0lf (clines), L1-MissNP: %.0lf (clines), L1-HitP: %.0lf (words), L1-HitNP: %.0lf (words)\n",
          MissL1P, MissL1NP, HitL1P, HitL1NP);
-  DEBUG_FPRINTF( stderr, "\tL1: nplanesL1: %g, nplanesL1NP: %g, nplanesL1P: %g\n", nplanesL1, nplanesL1NP, nplanesL1P);
-  DEBUG_FPRINTF( stderr, "\tL1: TtotalL1: %g, TstreamL1: %g, TnstreamL1: %g, TwordL1r: %g\n", TtotalL1, TstreamL1, TnstreamL1, TwordL1r);
+  DEBUG_FPRINTF( stdout, "\tL1: nplanesL1: %g, nplanesL1NP: %g, nplanesL1P: %g\n", nplanesL1, nplanesL1NP, nplanesL1P);
+  DEBUG_FPRINTF( stdout, "\tL1: TtotalL1: %g, TstreamL1: %g, TnstreamL1: %g, TwordL1r: %g\n", TtotalL1, TstreamL1, TnstreamL1, TwordL1r);
 
 
   /*****************************************/
   /* L1 - L2: Cost transfer from L2 to CPU */
   /*****************************************/
-  DEBUG_FPRINTF( stderr, "*** L1 - L2 ***\n" );
+  DEBUG_FPRINTF( stdout, "*** L1 - L2 ***\n" );
   TclineL2r = cacheline / bwL2r;
   //TclineL2w = cacheline / bwL2w;
   TclineL2rNP = cacheline / bwL2rNP;
@@ -735,7 +740,7 @@ double transfer_ideal( int nx, int ny, int nz,
     else pEL2 = prefEL2[nPrefEffL2-1]; // Prefetching is not triggered
   }
   else prefBlocking = 1.0;
-  //DEBUG_FPRINTF( stderr, "prefBlocking: %f\n", prefBlocking);
+  //DEBUG_FPRINTF( stdout, "prefBlocking: %f\n", prefBlocking);
   //pEL2 *= prefBlocking;
 
 
@@ -769,9 +774,9 @@ double transfer_ideal( int nx, int ny, int nz,
   TnstreamL2 = HitL2NP * TclineL2rNP;
   TtotalL2   = TstreamL2 + TnstreamL2;
 
-  DEBUG_FPRINTF( stderr, "\tL2-MissP: %.0lf, L2-MissNP: %.0lf, L2-HitP: %.0lf L2-HitNP: %.0lf\n", MissL2P, MissL2NP, HitL2P, HitL2NP);
-  DEBUG_FPRINTF( stderr, "\tL2: nplanesL2: %g, nplanesL2NP: %g, nplanesL2P: %g, prefEL2: %g\n", nplanesL2, nplanesL2NP, nplanesL2P, pEL2);
-  DEBUG_FPRINTF( stderr, "\tL2: TtotalL2: %g, TstreamL2: %g, TnstreamL2: %g, TclineL2r: %g\n", TtotalL2, TstreamL2, TnstreamL2, TclineL2r);
+  DEBUG_FPRINTF( stdout, "\tL2-MissP: %.0lf, L2-MissNP: %.0lf, L2-HitP: %.0lf L2-HitNP: %.0lf\n", MissL2P, MissL2NP, HitL2P, HitL2NP);
+  DEBUG_FPRINTF( stdout, "\tL2: nplanesL2: %g, nplanesL2NP: %g, nplanesL2P: %g, prefEL2: %g\n", nplanesL2, nplanesL2NP, nplanesL2P, pEL2);
+  DEBUG_FPRINTF( stdout, "\tL2: TtotalL2: %g, TstreamL2: %g, TnstreamL2: %g, TclineL2r: %g\n", TtotalL2, TstreamL2, TnstreamL2, TclineL2r);
 
 
 #if defined(L3PRESENT)
@@ -805,10 +810,10 @@ double transfer_ideal( int nx, int ny, int nz,
   TnstreamL3 = HitL3NP * TclineL3rNP;
   TtotalL3   = TstreamL3 + TnstreamL3;
 
-  DEBUG_FPRINTF( stderr, "***********************************HITL3: %lf %lf %lf\n", HitL3P, MissL2P, MissL3P);
-  DEBUG_FPRINTF( stderr, "L3-MissP: %.0lf, L3-MissNP: %.0lf, L3-HitP: %.0lf L3-HitNP: %.0lf\n", MissL3P, MissL3NP, HitL3P, HitL3NP);
-  DEBUG_FPRINTF( stderr, "L3: nplanesL3: %g, nplanesL3NP: %g, nplanesL3P: %g\n", nplanesL3, nplanesL3NP, nplanesL3P);
-//  DEBUG_FPRINTF( stderr, "L3: nplanesL3: %g, ncolumnsL3: %g, planesInter: %g, planesReuse: %g\n", nplanesL3, ncolumnsL3, planesInter, planesReuse);
+  DEBUG_FPRINTF( stdout, "***********************************HITL3: %lf %lf %lf\n", HitL3P, MissL2P, MissL3P);
+  DEBUG_FPRINTF( stdout, "L3-MissP: %.0lf, L3-MissNP: %.0lf, L3-HitP: %.0lf L3-HitNP: %.0lf\n", MissL3P, MissL3NP, HitL3P, HitL3NP);
+  DEBUG_FPRINTF( stdout, "L3: nplanesL3: %g, nplanesL3NP: %g, nplanesL3P: %g\n", nplanesL3, nplanesL3NP, nplanesL3P);
+//  DEBUG_FPRINTF( stdout, "L3: nplanesL3: %g, ncolumnsL3: %g, planesInter: %g, planesReuse: %g\n", nplanesL3, ncolumnsL3, planesInter, planesReuse);
 
 
   /* L3 - RAM: Cost transfer from MEM to L3 those not streamed and missed */
@@ -834,23 +839,23 @@ double transfer_ideal( int nx, int ny, int nz,
   TwriteP  = MissWP  * TclineRAMw;
   TwriteNP = MissWNP * TclineRAMwNP;
   Twrite   = TwriteP + TwriteNP;
-  DEBUG_FPRINTF( stderr, "\tWRITEBACK - Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
+  DEBUG_FPRINTF( stdout, "\tWRITEBACK - Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
                Twrite, volumeWriteCL, TwriteP, TwriteNP);
 #else
   Twrite = regLoopW * I * J * K * NB * TwordL1w + writePlanes * volumeWriteCL * TclineRAMw;
-  DEBUG_FPRINTF( stderr, "\tWRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
+  DEBUG_FPRINTF( stdout, "\tWRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
                Twrite, volumeWrite, TclineRAMw, volumeWriteCL * TclineRAMw);
 #endif
 
 
   Ttotal      = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalL3 + TtotalRAM;
-  DEBUG_FPRINTF( stderr, "RAM-HitP: %g RAM-HitNP: %g\n", MissL3P, MissL3NP);
+  DEBUG_FPRINTF( stdout, "RAM-HitP: %g RAM-HitNP: %g\n", MissL3P, MissL3NP);
 
-  //DEBUG_FPRINTF( stderr, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %0.lf\n", nx, ny, nz, tx, ty, tz, timesteps, length, MissL1P, MissL1NP, HitL1P, HitL1NP, MissL2P, MissL2NP, HitL2P, HitL2NP, MissL3P, MissL3NP, HitL3P, HitL3NP );
+  //DEBUG_FPRINTF( stdout, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %0.lf\n", nx, ny, nz, tx, ty, tz, timesteps, length, MissL1P, MissL1NP, HitL1P, HitL1NP, MissL2P, MissL2NP, HitL2P, HitL2NP, MissL3P, MissL3NP, HitL3P, HitL3NP );
 #else
 
   /* L2 - RAM: Cost transfer from MEM to L2 those not streamed and missed */
-  DEBUG_FPRINTF( stderr, "*** L2 - MEM ***\n" );
+  DEBUG_FPRINTF( stdout, "*** L2 - MEM ***\n" );
   TclineRAMr = cacheline / bwRAMr;
   TclineRAMw = cacheline / bwRAMw;
   TclineRAMrNP = cacheline / bwRAMrNP;
@@ -860,13 +865,13 @@ double transfer_ideal( int nx, int ny, int nz,
   TstreamRAM = MissL2P * TclineRAMr;
   TnstreamRAM = MissL2NP * TclineRAMrNP;
   TtotalRAM  = TstreamRAM + TnstreamRAM;
-  DEBUG_FPRINTF( stderr, "\tMissToRAM: MissL2P: %g, MissL2NP: %g\n", MissL2P, MissL2NP);
-  DEBUG_FPRINTF( stderr, "\tRAM: TtotalRAM: %g, TstreamRAM: %g, TnstreamRAM: %g\n", TtotalRAM, TstreamRAM, TnstreamRAM);
+  DEBUG_FPRINTF( stdout, "\tMissToRAM: MissL2P: %g, MissL2NP: %g\n", MissL2P, MissL2NP);
+  DEBUG_FPRINTF( stdout, "\tRAM: TtotalRAM: %g, TstreamRAM: %g, TnstreamRAM: %g\n", TtotalRAM, TstreamRAM, TnstreamRAM);
 
 
   /* Bring cold data from MEM to CPU */
   //Tcold      = ReadPlanes * ceil((II * JJ) / elemCLine) * TclineRAMr;
-  //DEBUG_FPRINTF( stderr, "Tcold: %g\n", Tcold/TclineRAMr);
+  //DEBUG_FPRINTF( stdout, "Tcold: %g\n", Tcold/TclineRAMr);
 
 
   /************** WRITE ***************************/
@@ -881,25 +886,25 @@ double transfer_ideal( int nx, int ny, int nz,
   TwriteP  = MissWP  * TclineRAMw;
   TwriteNP = MissWNP * TclineRAMwNP;
   Twrite   = TwriteP + TwriteNP;
-  DEBUG_FPRINTF( stderr, "\tWRITEBACK - writePlanes: %g, Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
+  DEBUG_FPRINTF( stdout, "\tWRITEBACK - writePlanes: %g, Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
                writePlanes, Twrite, volumeWriteCL, TwriteP, TwriteNP);
 #else
   Twrite = regLoopW * I * J * K * NB * TwordL1w + writePlanes * volumeWriteCL * TclineRAMw;
-  DEBUG_FPRINTF( stderr, "\tWRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
+  DEBUG_FPRINTF( stdout, "\tWRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
                Twrite, volumeWrite, TclineRAMw, volumeWriteCL * TclineRAMw);
 #endif
 
 
   Ttotal = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalRAM;
-  DEBUG_FPRINTF( stderr, "*** Ttotal: %g, Twrite: %g, TtotalL1: %g, TtotalL2: %g, TtotalRAM: %g\n",
+  DEBUG_FPRINTF( stdout, "*** Ttotal: %g, Twrite: %g, TtotalL1: %g, TtotalL2: %g, TtotalRAM: %g\n",
                 Ttotal, Twrite, TtotalL1, TtotalL2, TtotalRAM);
-  //DEBUG_FPRINTF( stderr, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf\n",
+  //DEBUG_FPRINTF( stdout, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf\n",
   //        nx, ny, nz, tx, ty, tz, timesteps, length,
   //        MissL1P, MissL1NP, HitL1P, MissL2P, MissL2NP, HitL2P, HitL2NP );
 
 #endif
 
-  DEBUG_FPRINTF( stderr, "IDEAL (CASE 3): ######################################\n" );
+  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ######################################\n" );
 
 
 #if 0
@@ -953,8 +958,8 @@ int main( int argc, char **argv )
   /* checking command line parameters */
   if( argc < 9 ) 
   {
-    fprintf( stderr, "Usage:\n" );
-    fprintf( stderr, "%s nx ny nz tx ty tz timesteps length\n", argv[0] );
+    fprintf( stdout, "Usage:\n" );
+    fprintf( stdout, "%s nx ny nz tx ty tz timesteps length\n", argv[0] );
     return EXIT_FAILURE;
   }
 
@@ -984,9 +989,9 @@ int main( int argc, char **argv )
   /* ideal stands for: ? */
   ti = transfer_ideal( nx, ny, nz, tx, ty, tz, length, timesteps );
 
-  __FPRINTF( stderr, "nx*ny*nz \ttx*ty*tz \ttimesteps \tlength"
+  __FPRINTF( stdout, "nx*ny*nz \ttx*ty*tz \ttimesteps \tlength"
                  " \toptimistic \tpesimistic \tideal \n" );
-  __FPRINTF( stderr, "%d %d %d \t%d %d %d \t%d \t\t%d \t%g \t%g \t%g\n",
+  __FPRINTF( stdout, "%d %d %d \t%d %d %d \t%d \t\t%d \t%g \t%g \t%g\n",
                  nx, ny, nz, tx, ty, tz, timesteps, length, to, tp, ti );
 
   return EXIT_SUCCESS;

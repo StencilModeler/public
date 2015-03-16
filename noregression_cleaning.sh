@@ -6,4 +6,4 @@ cd bin
 
 ./run.sh &> ./tmp.dat
 
-diff ./baseline3.dat ./tmp.dat
+diff ./baseline5.dat ./tmp.dat
