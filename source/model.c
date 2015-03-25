@@ -135,7 +135,8 @@ double transfer_pesimistic( int nx, int ny, int nz, int length, int timesteps )
  *
  * Return y as the interpolated data [y0, y1]
  */
-double interpolate( int method, double x, double x0, double x1, double y0, double y1 )
+double interpolate( int method, double x, double x0, 
+                    double x1, double y0, double y1 )
 {
   /* Interpolated value */
   double y;
@@ -181,22 +182,24 @@ double interpolate( int method, double x, double x0, double x1, double y0, doubl
       break;
 
     default:
-      fprintf( stdout, "Error: interpolation method not supported!\n" );
+      fprintf( stderr, "Error: interpolation method not supported!\n" );
       exit(EXIT_FAILURE);
   }
 
-  DEBUG_FPRINTF(stdout, "***** Interpolation: (method: %d)\n", method);
-  DEBUG_FPRINTF(stdout, "\ty: %g, for x: %g, x0: %g, x1: %g, y0: %g, y1: %g\n",
+  DEBUG_FPRINTF(stdout, "   Interpolation: (method: %d)\n", method);
+  DEBUG_FPRINTF(stdout, "   y: %g, for x: %g, x0: %g, x1: %g, y0: %g, y1: %g\n",
                 y, x, x0, x1, y0, y1);
 
   /* Return interpolated data */
   return y;
 }
 
-/* Returns the number of misses by means of number of planes to read
+/* Returns the number of misses in terms of number of planes to read
  * for each plane processed of the stencil computation */
-double read_misses( char *textLx, int I, int II, int J, int K, int length,
-                    double sizeLx, double assocLx, int interp, int *Kread, double *writePlanes, double *nplanesLxNCI )
+double read_misses( char *textLx, int I, int II, int J, int K, 
+                    int length, double sizeLx, double assocLx, 
+                    int interp, int *Kread, double *writePlanes, 
+                    double *nplanesLxNCI )
 {
   int JJ = J+2*length;
   int KK = K+2*length;
@@ -218,8 +221,9 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
 
   /* TODO: Don't consider planeSizeW if write-through policy */
 #if WRITEBACK
-  nplanes     = ReadPlanes + WritePlanes;                           // Total number of planes keept in caches
-  nplanesSize = ReadPlanes * planeSizeR + WritePlanes * planeSizeW; // Total kB of all planes in memory
+  nplanes     = ReadPlanes + WritePlanes;   // Total number of planes keept in caches
+  // Total kB of all planes in memory
+  nplanesSize = ReadPlanes * planeSizeR + WritePlanes * planeSizeW; 
 
   /* By default writePlanes is the macro */
   *writePlanes = WritePlanes;
@@ -227,15 +231,16 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   nplanes     = ReadPlanes;
   nplanesSize = ReadPlanes * planeSizeR;
 #endif
-  DEBUG_FPRINTF( stdout,"Total memory (elems) per stencil plane: %g (%.0f planes)\n",
-                 nplanesSize, nplanes );
+  DEBUG_FPRINTF( stdout,"  %s total elements per stencil plane: %g (%.0f planes)\n",
+                 textLx, nplanesSize, nplanes );
 
 
   /* Associativies that every plane requires for non fitting cases */
   /* How much space/assoc requires the central plane */
-  /* assoc = MIN(planeSizeR/((sizeL1/word)/assocL1), assocL1); */   // Number of associativities required
+  /* assoc = MIN(planeSizeR/((sizeL1/word)/assocL1), assocL1); */   
+  // Number of associativities required
   assocSize  = (sizeLx/word)/assocLx;                 // Size per associativity
-  DEBUG_FPRINTF( stdout,"\t%s assocSize: %g\n", textLx, assocSize );
+  DEBUG_FPRINTF( stdout,"  %s assocSize: %g\n", textLx, assocSize );
 
 
 /* Rules definition */
@@ -257,12 +262,17 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   /* By default K planes to read */
   *Kread = K;
 
-  /* If all the planes required fit in cache (ReadPlanes + WritePlanes (1)):                        */
-  /* Total reuse by planes: Fetch 1 plane for reading + 1 plane for writing (write allocate policy) */
-  if (R1) {
-    /* At least only nplanesLx = 1 of misses, but coef, indexes could push up this value a little more for L1 */
+  /* If all the planes required fit in 
+   * cache (ReadPlanes + WritePlanes (1)):      */
+  /* Total reuse by planes: Fetch 1 plane for reading + * 1 plane 
+   * for writing (write allocate policy) */
+  if (R1) 
+   {
+    /* At least only nplanesLx = 1 of misses, but coef, 
+     * indexes could push up this value a little more for L1 */
     nplanesLx = 1.0;
-    DEBUG_FPRINTF( stdout,"\t%s: Total reuse (C1), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"  %s Total reuse (C1): nplanes: %f\n", 
+                   textLx, nplanesLx);
     *Kread = KK;
 
     lowerRule = 0;
@@ -271,10 +281,12 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   }
 
   /* Transition between 1 (R1) -> (Pread - 1) (R3): Interpolation case */
-  if (R2) {
-    /* Initial number of planes to read if total data does not fit in cache */
+  if (R2) 
+    {
+    /* Initial number of planes to read if total data 
+     * does not fit in cache */
     nplanesLx = ReadPlanes - 1.0;
-    DEBUG_FPRINTF( stdout,"\t%s: No total reuse on K, reuse on central plane (C1 U C2), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"  %s No total reuse on K: reuse on central plane (C1 U C2), nplanes: %f\n", textLx, nplanesLx);
 
     lowerRule = 1;
     upperRule = 2;
@@ -282,28 +294,33 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   }
 
 #if SEMI
-  /* Semi-stencil: writePlanes is increased to 3 if central plane does not fit in cache */
+  /* Semi-stencil: writePlanes is increased to 3 if 
+   * central plane does not fit in cache */
   *writePlanes+=1.0;
-  DEBUG_FPRINTF( stdout,"\t%s: writePlanes: %f\n", textLx, *writePlanes);
+  DEBUG_FPRINTF( stdout,"  %s writePlanes: %f\n", textLx, *writePlanes);
 #endif
 
-  /* If central plane fits in half of the cache (COLUMN_RATIO: columns central/columns in total) */
-  /* the number of planes should be (ReadPlanes - 1) because reuse central plane                 */
-  if (R3) {
+  /* If central plane fits in half of the cache 
+   * (COLUMN_RATIO: columns central/columns in total) */
+  /* the number of planes should be (ReadPlanes - 1) 
+   * because reuse central plane                 */
+  if (R3) 
+    {
     /* Miss back and front planes only */
     nplanesLx = ReadPlanes - 1.0;
-    DEBUG_FPRINTF( stdout,"\t%s: No reuse on K, reuse on central plane (C2 U C3), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"  %s No reuse on K: reuse on central plane (C2 U C3), nplanes: %f\n", textLx, nplanesLx);
 
     lowerRule = 2;
     upperRule = 3;
     goto endRules;
   }
 
-  /* If central plane does not fit in half of the cache (COLUMN_RATIO: columns central/columns in total) */
-  /* the number of planes should be ReadPlanes                                                           */
-  if (R4) {
+  /* If central plane does not fit in half of the cache 
+   * (COLUMN_RATIO: columns central/columns in total) */
+  if (R4) 
+    {
     nplanesLx = ReadPlanes;
-    DEBUG_FPRINTF( stdout,"\t%s: No reuse on K (neither central plane) (C3 U C4), nplanes: %f\n", textLx, nplanesLx);
+    DEBUG_FPRINTF( stdout,"  %s No reuse on K (neither central plane) (C3 U C4): nplanes: %f\n", textLx, nplanesLx);
 
     lowerRule = 3;
     upperRule = 4;
@@ -315,7 +332,7 @@ double read_misses( char *textLx, int I, int II, int J, int K, int length,
   /* They should be reused in J iteration                      */
   /* Miss all planes (included central plane: no reuse columns on central plane) */
   nplanesLx = (2.0 * ReadPlanes) - 1.0;
-  DEBUG_FPRINTF( stdout,"\t%s: No reuse, miss all (planes, central plane and columns) (C4), nplanes: %f\n", textLx, nplanesLx);
+  DEBUG_FPRINTF( stdout,"  %s No reuse, miss all (planes, central plane and columns) (C4): nplanes: %f\n", textLx, nplanesLx);
 
   lowerRule = 4;
   upperRule = 5;
@@ -416,10 +433,11 @@ endRules:
     }
 
 
-    DEBUG_FPRINTF(stdout, "lowerRule = %d, upperRule = %d\n", lowerRule, upperRule);
+    DEBUG_FPRINTF(stdout, "  %s lowerRule = %d, upperRule = %d\n", 
+                  textLx, lowerRule, upperRule);
 
-    DEBUG_FPRINTF(stdout, "%s: (%d,%d,%d), %d interpolation, nplanesLx: %f\n", textLx,
-                  I, J, K,  interp, nplanesLx);
+    DEBUG_FPRINTF(stdout, "  %s: block (%d,%d,%d), interpolation %d, nplanesLx: %f\n", 
+                  textLx, I, J, K, interp, nplanesLx);
 
     /* Interpolate between rules */
     nplanesLx = interpolate( interp, x, x0, x1, y0, y1 );
@@ -449,7 +467,8 @@ endRules:
   //else nplanesLx += (scaleII*scaleJJ);
   //if ((lowerRule > 1) && (upperRule > 1)) nplanesLx *= (scaleJJ);
   //else nplanesLx += (scaleII * scaleJJ);
-  DEBUG_FPRINTF(stdout, "scaleII = %f, scaleJJ = %f, nplanesLx = %f\n", scaleII, scaleJJ, nplanesLx);
+  DEBUG_FPRINTF(stdout, "  %s scaleII = %f, scaleJJ = %f, nplanesLx = %f\n", 
+                textLx, scaleII, scaleJJ, nplanesLx);
 #endif
 
 
@@ -626,9 +645,9 @@ double transfer_ideal( int nx, int ny, int nz,
     regLoopW += regIndex - regGPR;
   }
 
-
   /* Compute Read Misses - L1 */
-  nplanesL1 = read_misses( "L1", I, II, J, K, length, sizeL1, assocL1, INTERP, &Kread, &writePlanes, &nplanesL1NCI);
+  nplanesL1 = read_misses( "L1", I, II, J, K, length, sizeL1, assocL1, 
+                           INTERP, &Kread, &writePlanes, &nplanesL1NCI);
 
   volumeRead    = II * JJ * Kread * NB;                             // Read volume in points
   volumeReadCL  = ceil((II * JJ * Kread) / elemCLine) * NB;         // Read volume in Cache Lines
@@ -640,7 +659,8 @@ double transfer_ideal( int nx, int ny, int nz,
 
 
   /* Compute prefetching efficiency for L1 */
-  /* For architectures with Prefetching system - Store reads may be prefetched as well - WRITEBACK */
+  /* For architectures with Prefetching system 
+   * - Store reads may be prefetched as well - WRITEBACK */
   if ((prefL1) && (WRITEBACK)) {
     /* Add writePlanes because Writeback prefetch */
     y0 = prefEL1[MIN(((int)nplanesL1)+((int)writePlanes),   nPrefEffL1)-1];
@@ -650,7 +670,8 @@ double transfer_ideal( int nx, int ny, int nz,
     y0 = prefEL1[MIN(((int)nplanesL1),   nPrefEffL1)-1];
     y1 = prefEL1[MIN(((int)nplanesL1)+1, nPrefEffL1)-1];
   }
-  pEL1 = interpolate( INTERP, nplanesL1, (int)nplanesL1, ((int)nplanesL1)+1, y0, y1 );
+  pEL1 = interpolate( INTERP, nplanesL1, (int)nplanesL1, 
+                      ((int)nplanesL1)+1, y0, y1 );
 
 
 #if 1
