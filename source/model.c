@@ -699,18 +699,18 @@ double transfer_ideal( int nx, int ny, int nz,
   TnstreamL1 = HitL1NP * TwordL1rNP;
   TtotalL1   = TstreamL1 + TnstreamL1;
 
-  DEBUG_FPRINTF( stdout, "\tL1: regLoopR: %g, regLoopW: %g, Reads L1 Total: %g - Write L1 Total: %g, Kread: %d\n",
+  DEBUG_FPRINTF( stdout, "  L1: regLoopR: %g, regLoopW: %g, Reads L1 Total: %g - Write L1 Total: %g, Kread: %d\n",
          regLoopR, regLoopW, regLoopR * I * J * K * NB, regLoopW * I * J * K * NB, Kread);
-  DEBUG_FPRINTF( stdout, "\tL1-MissP: %.0lf (clines), L1-MissNP: %.0lf (clines), L1-HitP: %.0lf (words), L1-HitNP: %.0lf (words)\n",
+  DEBUG_FPRINTF( stdout, "  L1-MissP: %.0lf (clines), L1-MissNP: %.0lf (clines), L1-HitP: %.0lf (words), L1-HitNP: %.0lf (words)\n",
          MissL1P, MissL1NP, HitL1P, HitL1NP);
-  DEBUG_FPRINTF( stdout, "\tL1: nplanesL1: %g, nplanesL1NP: %g, nplanesL1P: %g\n", nplanesL1, nplanesL1NP, nplanesL1P);
-  DEBUG_FPRINTF( stdout, "\tL1: TtotalL1: %g, TstreamL1: %g, TnstreamL1: %g, TwordL1r: %g\n", TtotalL1, TstreamL1, TnstreamL1, TwordL1r);
+  DEBUG_FPRINTF( stdout, "  L1: nplanesL1: %g, nplanesL1NP: %g, nplanesL1P: %g\n", nplanesL1, nplanesL1NP, nplanesL1P);
+  DEBUG_FPRINTF( stdout, "  L1: TtotalL1: %g, TstreamL1: %g, TnstreamL1: %g, TwordL1r: %g\n", TtotalL1, TstreamL1, TnstreamL1, TwordL1r);
 
 
   /*****************************************/
   /* L1 - L2: Cost transfer from L2 to CPU */
   /*****************************************/
-  DEBUG_FPRINTF( stdout, "*** L1 - L2 ***\n" );
+  DEBUG_FPRINTF( stdout, " *** L1 - L2 ***\n" );
   TclineL2r = cacheline / bwL2r;
   //TclineL2w = cacheline / bwL2w;
   TclineL2rNP = cacheline / bwL2rNP;
@@ -795,13 +795,15 @@ double transfer_ideal( int nx, int ny, int nz,
   TnstreamL2 = HitL2NP * TclineL2rNP;
   TtotalL2   = TstreamL2 + TnstreamL2;
 
-  DEBUG_FPRINTF( stdout, "\tL2-MissP: %.0lf, L2-MissNP: %.0lf, L2-HitP: %.0lf L2-HitNP: %.0lf\n", MissL2P, MissL2NP, HitL2P, HitL2NP);
-  DEBUG_FPRINTF( stdout, "\tL2: nplanesL2: %g, nplanesL2NP: %g, nplanesL2P: %g, prefEL2: %g\n", nplanesL2, nplanesL2NP, nplanesL2P, pEL2);
-  DEBUG_FPRINTF( stdout, "\tL2: TtotalL2: %g, TstreamL2: %g, TnstreamL2: %g, TclineL2r: %g\n", TtotalL2, TstreamL2, TnstreamL2, TclineL2r);
+  DEBUG_FPRINTF( stdout, "  L2-MissP: %.0lf, L2-MissNP: %.0lf, L2-HitP: %.0lf L2-HitNP: %.0lf\n", MissL2P, MissL2NP, HitL2P, HitL2NP);
+  DEBUG_FPRINTF( stdout, "  L2: nplanesL2: %g, nplanesL2NP: %g, nplanesL2P: %g, prefEL2: %g\n", nplanesL2, nplanesL2NP, nplanesL2P, pEL2);
+  DEBUG_FPRINTF( stdout, "  L2: TtotalL2: %g, TstreamL2: %g, TnstreamL2: %g, TclineL2r: %g\n", TtotalL2, TstreamL2, TnstreamL2, TclineL2r);
 
 
 #if defined(L3PRESENT)
   /* L2 - L3: Cost transfer from L3 to CPU */
+  DEBUG_FPRINTF( stdout, " *** L2 - L3 ***\n" );
+
   TclineL3r = cacheline / bwL3r;
   //TclineL3w = cacheline / bwL3w;
   TclineL3rNP = cacheline / bwL3rNP;
@@ -831,13 +833,15 @@ double transfer_ideal( int nx, int ny, int nz,
   TnstreamL3 = HitL3NP * TclineL3rNP;
   TtotalL3   = TstreamL3 + TnstreamL3;
 
-  DEBUG_FPRINTF( stdout, "***********************************HITL3: %lf %lf %lf\n", HitL3P, MissL2P, MissL3P);
-  DEBUG_FPRINTF( stdout, "L3-MissP: %.0lf, L3-MissNP: %.0lf, L3-HitP: %.0lf L3-HitNP: %.0lf\n", MissL3P, MissL3NP, HitL3P, HitL3NP);
-  DEBUG_FPRINTF( stdout, "L3: nplanesL3: %g, nplanesL3NP: %g, nplanesL3P: %g\n", nplanesL3, nplanesL3NP, nplanesL3P);
+  DEBUG_FPRINTF( stdout, "  L3 HIT: %lf %lf %lf\n", HitL3P, MissL2P, MissL3P);
+  DEBUG_FPRINTF( stdout, "  L3-MissP: %.0lf, L3-MissNP: %.0lf, L3-HitP: %.0lf L3-HitNP: %.0lf\n", MissL3P, MissL3NP, HitL3P, HitL3NP);
+  DEBUG_FPRINTF( stdout, "  L3: nplanesL3: %g, nplanesL3NP: %g, nplanesL3P: %g\n", nplanesL3, nplanesL3NP, nplanesL3P);
 //  DEBUG_FPRINTF( stdout, "L3: nplanesL3: %g, ncolumnsL3: %g, planesInter: %g, planesReuse: %g\n", nplanesL3, ncolumnsL3, planesInter, planesReuse);
 
 
   /* L3 - RAM: Cost transfer from MEM to L3 those not streamed and missed */
+  DEBUG_FPRINTF( stdout, " *** L3 - RAM ***\n" );
+
   TclineRAMr = cacheline / bwRAMr;
   TclineRAMw = cacheline / bwRAMw;
   TclineRAMrNP = cacheline / bwRAMrNP;
@@ -846,7 +850,6 @@ double transfer_ideal( int nx, int ny, int nz,
   TstreamRAM  = MissL3P * TclineRAMr;
   TnstreamRAM = MissL3NP * TclineRAMrNP;
   TtotalRAM   = TstreamRAM + TnstreamRAM;
-
 
   /************** WRITE ***************************/
   /* Write data back into memory I * J * K volume */
@@ -860,23 +863,24 @@ double transfer_ideal( int nx, int ny, int nz,
   TwriteP  = MissWP  * TclineRAMw;
   TwriteNP = MissWNP * TclineRAMwNP;
   Twrite   = TwriteP + TwriteNP;
-  DEBUG_FPRINTF( stdout, "\tWRITEBACK - Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
+  DEBUG_FPRINTF( stdout, "  WRITEBACK - Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
                Twrite, volumeWriteCL, TwriteP, TwriteNP);
 #else
   Twrite = regLoopW * I * J * K * NB * TwordL1w + writePlanes * volumeWriteCL * TclineRAMw;
-  DEBUG_FPRINTF( stdout, "\tWRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
+  DEBUG_FPRINTF( stdout, "  WRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
                Twrite, volumeWrite, TclineRAMw, volumeWriteCL * TclineRAMw);
 #endif
 
-
   Ttotal      = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalL3 + TtotalRAM;
-  DEBUG_FPRINTF( stdout, "RAM-HitP: %g RAM-HitNP: %g\n", MissL3P, MissL3NP);
+  DEBUG_FPRINTF( stdout, "  RAM-HitP: %g RAM-HitNP: %g\n", MissL3P, MissL3NP);
 
   //DEBUG_FPRINTF( stdout, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %0.lf\n", nx, ny, nz, tx, ty, tz, timesteps, length, MissL1P, MissL1NP, HitL1P, HitL1NP, MissL2P, MissL2NP, HitL2P, HitL2NP, MissL3P, MissL3NP, HitL3P, HitL3NP );
 #else
 
+  /* no L3 */
   /* L2 - RAM: Cost transfer from MEM to L2 those not streamed and missed */
   DEBUG_FPRINTF( stdout, "*** L2 - MEM ***\n" );
+
   TclineRAMr = cacheline / bwRAMr;
   TclineRAMw = cacheline / bwRAMw;
   TclineRAMrNP = cacheline / bwRAMrNP;
@@ -886,14 +890,12 @@ double transfer_ideal( int nx, int ny, int nz,
   TstreamRAM = MissL2P * TclineRAMr;
   TnstreamRAM = MissL2NP * TclineRAMrNP;
   TtotalRAM  = TstreamRAM + TnstreamRAM;
-  DEBUG_FPRINTF( stdout, "\tMissToRAM: MissL2P: %g, MissL2NP: %g\n", MissL2P, MissL2NP);
-  DEBUG_FPRINTF( stdout, "\tRAM: TtotalRAM: %g, TstreamRAM: %g, TnstreamRAM: %g\n", TtotalRAM, TstreamRAM, TnstreamRAM);
-
+  DEBUG_FPRINTF( stdout, "  MissToRAM: MissL2P: %g, MissL2NP: %g\n", MissL2P, MissL2NP);
+  DEBUG_FPRINTF( stdout, "  RAM: TtotalRAM: %g, TstreamRAM: %g, TnstreamRAM: %g\n", TtotalRAM, TstreamRAM, TnstreamRAM);
 
   /* Bring cold data from MEM to CPU */
   //Tcold      = ReadPlanes * ceil((II * JJ) / elemCLine) * TclineRAMr;
   //DEBUG_FPRINTF( stdout, "Tcold: %g\n", Tcold/TclineRAMr);
-
 
   /************** WRITE ***************************/
   /* Write data back into memory I * J * K volume */
@@ -907,11 +909,11 @@ double transfer_ideal( int nx, int ny, int nz,
   TwriteP  = MissWP  * TclineRAMw;
   TwriteNP = MissWNP * TclineRAMwNP;
   Twrite   = TwriteP + TwriteNP;
-  DEBUG_FPRINTF( stdout, "\tWRITEBACK - writePlanes: %g, Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
+  DEBUG_FPRINTF( stdout, "  WRITEBACK - writePlanes: %g, Twrite: %g, volumeWriteCL: %g, TwriteP: %g, TwriteNP: %g\n",
                writePlanes, Twrite, volumeWriteCL, TwriteP, TwriteNP);
 #else
   Twrite = regLoopW * I * J * K * NB * TwordL1w + writePlanes * volumeWriteCL * TclineRAMw;
-  DEBUG_FPRINTF( stdout, "\tWRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
+  DEBUG_FPRINTF( stdout, "  WRITETHROUGH - Twrite: %g, volumeWriteCL: %g, TclineRAMw: %g, WriteOutput: %g\n",
                Twrite, volumeWrite, TclineRAMw, volumeWriteCL * TclineRAMw);
 #endif
 
@@ -925,8 +927,7 @@ double transfer_ideal( int nx, int ny, int nz,
 
 #endif
 
-  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ######################################\n" );
-
+  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ######################################\n\n" );
 
 #if 0
 /* TODO: Timesteps is printed but not used to update values - Run with timesteps 1 */
