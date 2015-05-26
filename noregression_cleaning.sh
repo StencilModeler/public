@@ -6,4 +6,13 @@ cd bin
 
 ./run.sh &> ./tmp.dat
 
-diff ./baseline5.dat ./tmp.dat
+diff ./baseline7.dat ./tmp.dat
+
+echo
+if [ $? -ne 0 ]; then echo "Non-regression tests: FAILED"
+else echo "Non-regression tests: PASS"
+fi
+
+echo
+echo "Done."
+echo

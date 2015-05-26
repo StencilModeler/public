@@ -543,7 +543,7 @@ double transfer_ideal( int nx, int ny, int nz,
   double prefEL1[] = prefEffL1;
   double prefEL2[] = prefEffL2;
 
-  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ###########################################\n" );
+  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ##########################################################################################\n\n" );
 
   prefBlocking = 0.0;  // Prefetching is not triggered
 #if 1
@@ -871,10 +871,18 @@ double transfer_ideal( int nx, int ny, int nz,
                Twrite, volumeWrite, TclineRAMw, volumeWriteCL * TclineRAMw);
 #endif
 
-  Ttotal      = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalL3 + TtotalRAM;
   DEBUG_FPRINTF( stdout, "  RAM-HitP: %g RAM-HitNP: %g\n", MissL3P, MissL3NP);
 
-  //DEBUG_FPRINTF( stdout, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %0.lf\n", nx, ny, nz, tx, ty, tz, timesteps, length, MissL1P, MissL1NP, HitL1P, HitL1NP, MissL2P, MissL2NP, HitL2P, HitL2NP, MissL3P, MissL3NP, HitL3P, HitL3NP );
+  Ttotal      = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalL3 + TtotalRAM;
+  //DEBUG_FPRINTF( stdout, "*** Ttotal: %g, Twrite: %g, TtotalL1: %g, TtotalL2: %g, TtotalRAM: %g\n",
+  //              Ttotal, Twrite, TtotalL1, TtotalL2, TtotalRAM);
+  DEBUG_FPRINTF( stdout, "\nTtotal \t\tTcoldRAM \tTL1 \t\tTL2 \t\tTL3 \t\tTstreamRAM \tTwriteRAM\n");
+  DEBUG_FPRINTF( stdout, "%2.8f \t%2.8f \t%2.8f \t%2.8f \t%2.8f \t%2.8f \t%2.8f\n", 
+                 Ttotal, 0.0, TtotalL1, TtotalL2, TtotalL3, TtotalRAM, Twrite );
+
+  //DEBUG_FPRINTF( stdout, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %0.lf\n", 
+  //                       nx, ny, nz, tx, ty, tz, timesteps, length, MissL1P, MissL1NP, HitL1P, HitL1NP, MissL2P, 
+  //                       MissL2NP, HitL2P, HitL2NP, MissL3P, MissL3NP, HitL3P, HitL3NP );
 #else
 
   /* no L3 */
@@ -918,16 +926,19 @@ double transfer_ideal( int nx, int ny, int nz,
 #endif
 
 
-  Ttotal = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalRAM;
-  DEBUG_FPRINTF( stdout, "*** Ttotal: %g, Twrite: %g, TtotalL1: %g, TtotalL2: %g, TtotalRAM: %g\n",
-                Ttotal, Twrite, TtotalL1, TtotalL2, TtotalRAM);
+  //DEBUG_FPRINTF( stdout, "*** Ttotal: %g, Twrite: %g, TtotalL1: %g, TtotalL2: %g, TtotalRAM: %g\n",
+  //              Ttotal, Twrite, TtotalL1, TtotalL2, TtotalRAM);
   //DEBUG_FPRINTF( stdout, "%d %d %d %d %d %d %d %d %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf %.0lf\n",
   //        nx, ny, nz, tx, ty, tz, timesteps, length,
   //        MissL1P, MissL1NP, HitL1P, MissL2P, MissL2NP, HitL2P, HitL2NP );
 
+  Ttotal = Twrite + /*Tcold +*/ TtotalL1 + TtotalL2 + TtotalRAM;
+  DEBUG_FPRINTF( stdout, "\nTtotal \t\tTcoldRAM \tTL1 \tTL2 \tTstreamRAM \tTwriteRAM\n");
+  DEBUG_FPRINTF( stdout, "%2.8f \t%2.8f \t%2.8f \t%2.8f \t%2.8f \t%2.8f\n", 
+                 Ttotal, 0.0, TtotalL1, TtotalL2, TtotalRAM, Twrite );
 #endif
 
-  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ######################################\n\n" );
+  DEBUG_FPRINTF( stdout, "IDEAL (CASE 3): ##########################################################################################\n\n" );
 
 #if 0
 /* TODO: Timesteps is printed but not used to update values - Run with timesteps 1 */
